@@ -98,3 +98,11 @@ Application des structs et méthodes avec un CompteBancaire :
     - `renommer(self, nouveau_nom: String) -> CompteBancaire` — retourne un nouveau compte renommé
 
 Bonus : gestion de plusieurs comptes dans un `Vec<CompteBancaire>` et itération `.iter().enumerate()`.
+
+---
+
+## 16. Écriture dans un fichier  
+Pour écrire dans un fichier, on utilise `std::fs::File::create` pour ouvrir/créer le fichier, puis `file.write_all(...)` ou le macro `writeln!(file, "...")` pour y écrire des octets ou des lignes (`use std::io::Write;`). Voir `resources/ecrire.rs`.
+
+## 17. Lecture depuis un fichier  
+Pour lire un fichier, on ouvre d’abord avec `std::fs::File::open`, on enveloppe dans un `BufReader`, puis on appelle `reader.read_to_string(&mut content)` pour charger tout le contenu dans une `String` (`use std::io::{BufReader, Read};`). Voir `resources/lire.rs`.  
