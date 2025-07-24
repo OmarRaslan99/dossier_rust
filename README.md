@@ -106,3 +106,35 @@ Pour écrire dans un fichier, on utilise `std::fs::File::create` pour ouvrir/cr�
 
 ## 17. Lecture depuis un fichier  
 Pour lire un fichier, on ouvre d’abord avec `std::fs::File::open`, on enveloppe dans un `BufReader`, puis on appelle `reader.read_to_string(&mut content)` pour charger tout le contenu dans une `String` (`use std::io::{BufReader, Read};`). Voir `resources/lire.rs`.  
+
+---
+
+## 18. Utilisation de chrono
+La crate chrono permet de manipuler dates et heures :
+```rs
+use chrono::Utc;
+let now = Utc::now();
+println!("UTC: {}", now);
+println!("Format FR: {}", now.format("%d/%m/%Y %H:%M:%S"));
+```
+
+---
+
+## 19. Ownership et borrowing
+- **Ownership** : Chaque valeur a un propriétaire unique ; lorsqu’il sort de scope, la mémoire est libérée.
+- **Clonage** : `let b = a.clone();` produit une copie profonde pour conserver les deux valeurs.
+- **Borrowing** : `&T` et `&mut T` prêtent une référence sans déplacer la valeur.
+- **Membership** : Une `struct` possède ses champs, et emprunter un champ (`&user.nom`) permet de lire sans transférer la propriété.
+
+---
+
+## 20. Travaux Pratiques 3
+Mise en pratique de la gestion de fichiers :
+- `struct Fichier { nom: String, taille: u64 }`
+- Méthodes via `impl` :
+    - `new(nom: String) -> io::Result<Self>` — crée ou ouvre et lit la taille
+    - `lire(&self)` — affiche le contenu
+    - `ecrire(&mut self, texte: &str)` — écrase et met à jour la taille
+    - `modifier(&mut self, texte: &str)` — ajoute en fin et met à jour
+    - `supprimer(self)` — supprime le fichier
+- **Menu interactif** : lire, créer, écrire, modifier, supprimer, quitter.
