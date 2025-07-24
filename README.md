@@ -138,3 +138,78 @@ Mise en pratique de la gestion de fichiers :
     - `modifier(&mut self, texte: &str)` — ajoute en fin et met à jour
     - `supprimer(self)` — supprime le fichier
 - **Menu interactif** : lire, créer, écrire, modifier, supprimer, quitter.
+
+---
+
+## 21. Programmation asynchrone avec `tokio`
+
+La crate `tokio` permet d'écrire du code réseau et concurrentiel en Rust de manière non bloquante :
+
+```rust
+#[tokio::main]
+async fn main() {
+    // création d'un listener TCP
+    let listener = TcpListener::bind("127.0.0.1:8080").await.unwrap();
+    loop {
+        let (socket, addr) = listener.accept().await.unwrap();
+        println!("Connexion depuis {}", addr);
+        tokio::spawn(async move {
+            // gestion du client en tâche asynchrone
+            handle_client(socket).await.unwrap();
+        });
+    }
+}
+```
+
+* Utilise des tâches (`tokio::spawn`) pour chaque connexion.
+* Les fonctions I/O asynchrones retournent des `Future` à `await`.
+
+## 22. Travaux Pratiques 4
+
+Mise en place d'un serveur TCP asynchrone qui :
+
+1. Écoute sur un port (ex. `127.0.0.1:8080`).
+2. Accepte plusieurs clients simultanément avec `tokio::spawn`.
+3. Lit les messages ligne par ligne (`AsyncBufReadExt::lines`).
+4. Enregistre chaque message horodaté dans un fichier de log protégé par un `Mutex` et partagé via `Arc<Mutex<File>>`.
+5. Utilise `chrono::Utc` pour générer des timestamps en format RFC 3339.
+
+**Objectifs** :
+
+* Comprendre l'async/await en Rust.
+* Manipuler `Arc`, `Mutex` et I/O asynchrone.
+* Gérer la concurrence sans blocage.
+
+```rust
+// Extrait de TP4 (voir fichier complet)
+use tokio::{net::TcpListener, sync::Mutex};
+use tokio::io::{AsyncBufReadExt, BufReader};
+use std::sync::Arc;
+use std::fs::OpenOptions;
+use chrono::Utc;
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Création du dossier de logs
+    tokio::fs::create_dir_all("logs").await?;
+    
+    let listener = TcpListener::bind("127.0.0.1:8080").await?;
+    let file = OpenOptions::new()
+        .create(true).append(true)
+        .open("logs/server.log")?;
+    let file = Arc::new(Mutex::new(file));
+
+    loop {
+        let (socket, addr) = listener.accept().await?;
+        let file = Arc::clone(&file);
+        tokio::spawn(async move {
+            let mut reader = BufReader::new(socket).lines();
+            while let Some(line) = reader.next_line().await.unwrap() {
+                let entry = format!("[{}] {}\n", Utc::now().to_rfc3339(), line);
+                let mut f = file.lock().await;
+                f.write_all(entry.as_bytes()).unwrap();
+            }
+        });
+    }
+}
+```
