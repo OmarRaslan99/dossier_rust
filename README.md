@@ -227,6 +227,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 **Fichiers clés** : `src/server.rs`, `src/client.rs`.
 
+**Captures d’écran :**
+
+**Client**
+
+![TP5 Client Console](resources/tp5_client.png)
+
+**Server**
+
+![TP5 Server Console](resources/tp5_server.png)
+
 ---
 
 ## 24. Travaux Pratiques 6
@@ -239,6 +249,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 **Fichiers clés** : `src/server.rs`, `src/client.rs`.
 
+**Captures d’écran :**
+
+**Client**
+
+![TP6 Client Console](resources/tp6_client.png)
+
+**Server**
+
+![TP6 Server Console](resources/tp6_server.png)
+
 ---
 
 ## 25. Travaux Pratiques 7
@@ -250,3 +270,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 * Communication full‑duplex et gestion de plusieurs connexions.
 
 **Fichiers clés** : `src/server.rs`, `src/client.rs`.
+
+**Captures d’écran :**
+
+**Client**
+
+![TP7 Client Console](resources/tp7_client.png)
+
+**Server**
+
+![TP7 Server Console](resources/tp7_server.png)
