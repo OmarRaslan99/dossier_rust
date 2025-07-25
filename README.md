@@ -213,3 +213,40 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 }
 ```
+
+---
+
+## 23. Travaux Pratiques 5
+
+**Client et Serveur DNS Simples** :
+
+* Implémentation UDP avec `UdpSocket`.
+* Parser et construire des messages DNS (RFC 1035) : en-tête, question, réponse.
+* Table DNS statique (`HashMap<&str, [u8; 4]>`).
+* Sérialisation/désérialisation binaire et envoi/réception de paquets.
+
+**Fichiers clés** : `src/server.rs`, `src/client.rs`.
+
+---
+
+## 24. Travaux Pratiques 6
+
+**Implémentation d’un Protocole Personnalisé** :
+
+* Définir un format de message (opcode, longueur, payload).
+* Client/serveur TCP pour gérer le protocole, état de session et erreurs.
+* Sérialisation/desérialisation manuelle ou via `serde`.
+
+**Fichiers clés** : `src/server.rs`, `src/client.rs`.
+
+---
+
+## 25. Travaux Pratiques 7
+
+**Serveur et Client WebSocket** :
+
+* Utilisation de `tokio-tungstenite` pour le handshake et les messages WebSocket.
+* Gestion d’événements texte et binaire.
+* Communication full‑duplex et gestion de plusieurs connexions.
+
+**Fichiers clés** : `src/server.rs`, `src/client.rs`.
