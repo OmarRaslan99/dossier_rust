@@ -1,0 +1,18 @@
+[package]
+name = "tp7"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1.0", features = ["full"] }
+tokio-tungstenite = "0.17"
+futures-util = "0.3"
+url = "2.2"
+
+[[bin]]
+name = "server"
+path = "src/server.rs"
+
+[[bin]]
+name = "client"
+path = "src/client.rs"
